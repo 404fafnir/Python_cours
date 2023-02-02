@@ -10,18 +10,18 @@ if response.ok:
 
     soupeOcailloux = Soupe(response.text, 'html.parser')
     
-    ul = soupeOcailloux.find('ul') #pour chercher des classes particulières -->     , {"class": ""}
+    ul = soupeOcailloux.find('ul') #pour chercher des classes particulières -->     ,{"class": ""} 
     soc = ul.findAll('li')
 
     
     for li in soc:
 
-        a = li.find('href')
+        a = li.find('a')
         
         try:
             print(baseUrl + a['href'])
         except:
             pass
                 
-
+print(response)
 
