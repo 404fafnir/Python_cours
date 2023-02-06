@@ -5,31 +5,32 @@ import re
 
 
 def liens ():
-    for nb in range(6):
+    
 
-        baseUrl = ("https://lagrandefamilledesclowns.art/directory/index?page=" + str(nb) + "&profile_type=person")
+    baseUrl = ("https://www.cybersecurite-solutions.com/annuaire-cybersecurite/")
 
-        response = requests.get(baseUrl)
+    response = requests.get(baseUrl)
+    
+    linksList = []
 
-        linksList = []
+    if response.ok:
 
-        if response.ok:
+        soupeOcailloux = Soupe(response.text, 'html.parser')
+        
+        ul = soupeOcailloux.find('tbody') 
+        soc = ul.findAll('td', {"class": "link"})
 
-            soupeOcailloux = Soupe(response.text, 'html.parser')
-            
-            ul = soupeOcailloux.find('div', {"id": "members_list"}) 
-            soc = ul.findAll('div',{"class": "result"})
+        for li in soc:
 
-            for li in soc:
-
-                a = li.find('a')
+            a = li.find('a')
                 
-                try:
-                    
-                    linksList.extend(baseUrl + a['href'])
+            try:
                 
-                except:
-                    pass
+                linksList.append(baseUrl + a['href'])
+                
+            except:
+                pass
+
     return linksList
 
 
