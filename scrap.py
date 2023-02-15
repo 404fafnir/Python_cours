@@ -1,43 +1,47 @@
 import requests
 from bs4 import BeautifulSoup as Soupe
-import re
+import csv
 
 
+linksList = []
 
 def liens ():
-    
+    for nb in range(6):
 
-    baseUrl = ("https://www.cybersecurite-solutions.com/annuaire-cybersecurite/")
+        Url = ("https://lagrandefamilledesclowns.art/directory/index?page=" + str(nb) + "&profile_type=person")
 
-    response = requests.get(baseUrl)
-    
-    linksList = []
+        baseUrl = "https://lagrandefamilledesclowns.art"
 
-    if response.ok:
+        response = requests.get(Url)
 
-        soupeOcailloux = Soupe(response.text, 'html.parser')
-        
-        ul = soupeOcailloux.find('tbody') 
-        soc = ul.findAll('td', {"class": "link"})
-
-        for li in soc:
-
-            a = li.find('a')
                 
-            try:
+
+        if response.ok:
+
+            soupeOcailloux = Soupe(response.text, 'html.parser')
+            
+            ul = soupeOcailloux.find('div', {"id": "members_list"}) 
+            soc = ul.findAll('div',{"class": "result"})
+
+            for li in soc:
+
+                a = li.find('a')
                 
-                linksList.append(baseUrl + a['href'])
+                try:
+                    
+                    linksList.append(baseUrl + a['href'])
                 
-            except:
-                pass
+                except:
+                    pass
 
     return linksList
 
 
-nom = []
-adresse = []
-contacte = []
+nom = ""
+adresse = ""
+contacte = ""
 
+Clowns = []
 
 def retrieve (lien):
 
@@ -47,30 +51,72 @@ def retrieve (lien):
         soupeOchoux = Soupe(lienR.text, 'html.parser')
 
         head = soupeOchoux.find('div', {"class": "head"})
-        name = head.find('h1')
-        nom.extend(name)
+        
+        try:    
+            nom = str(head.find('h1'))
+        except:
+            nom = "ERROR_NONE"
 
         content = soupeOchoux.find('div', {"class" : "content"})
+
+        try:
+            loc = content.find('div', {"class" : "icon-loc"})
+            adresse = str(loc.find('p'))
+        except:
+            adresse = "ERROR_NONE"
+
+        try:    
+            cont = content.find('div', {"class" : "icon-contact"})
+            contacte = str(cont.findAll('p'))
+        except:
+            contacte = "ERROR_NONE"
         
-        loc = content.find('div', {"class" : "icon-loc"})
-        localisation = loc.find('p')
-        adresse.extend(localisation)
-
-        cont = content.find('div', {"class" : "icon-contact"})
-        contact = cont.findAll('p')
-        contacte.extend(contact)
-
-    return nom, adresse, contacte
+    Clowns.append([nom, adresse, contacte])
+    return Clowns     
 
 
-retrieve("https://webcache.googleusercontent.com/search?q=cache:https://lagrandefamilledesclowns.art/directory/874")
-
-print(nom, adresse, contacte)
+LinkList = liens()
 
 
+for i in range (len(LinkList)):
+    retrieve(LinkList[i])
+    print("Retrieving for id : " + str(i))
 
+print(LinkList)
 
+#CSV
 
+try:
 
-                
+    data = [['ID', 'Name', 'Localisation', 'Adress', 'Link']]
+    print("Fields Data List")
+
+    longeur = len(LinkList)
+    print("Assining Longeur")
+
+    for i in range (0, longeur):
+        tmp = []
+        tmp.append(str(i))
+        tmp.extend(Clowns[i])
+        tmp.append(linksList[i])
+        
+        data.append(tmp)
+
+        print("Getting ID : " + str(i))
+   
+    with open('Scrap_results.csv', 'w', newline='') as csvfile:
+        my_writer = csv.writer(csvfile, delimiter=' ')
+        print("Creating File")
+        my_writer.writerows(data)
+        print("Writing File")
+
+except:
+    print("erreur")
+
+finally:
+#    my_writer.close()
+    print("Doc fermé")
+    print("DONE")
+        
+
 
