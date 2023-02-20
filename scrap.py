@@ -105,7 +105,7 @@ try:
         print("Getting ID : " + str(i))
    
     with open('Scrap_results.csv', 'w', newline='') as csvfile:
-        my_writer = csv.writer(csvfile, delimiter=' ')
+        my_writer = csv.writer(csvfile, delimiter='|')
         print("Creating File")
         my_writer.writerows(data)
         print("Writing File")
