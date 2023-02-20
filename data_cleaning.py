@@ -96,9 +96,9 @@ with open(input_file, 'r') as csv_input_file, open(output_file, 'w', newline='')
 
         new_row.append(del_croco(row[1]))
 
-        new_row.append(del_croco(row[2]))
+        new_row.append(del_unexpectedcomma(del_croco(row[2])))
 
-        new_row.append(del_bracket(del_quote(del_croco(row[3]))))
+        new_row.append(del_unexpectedcomma(del_bracket(del_quote(del_croco(row[3])))))
 
         new_row.append(row[4])
 

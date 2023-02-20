@@ -114,7 +114,7 @@ except:
     print("erreur")
 
 finally:
-#    my_writer.close()
+#   my_writer.close()
     print("Doc fermé")
     print("DONE")
         
