@@ -36,7 +36,7 @@ def del_quote (ligne):
     newligne = ""
 
     for i in range (0, len(ligne)):
-        if ligne[i] != '"':
+        if ligne[i] != "\"":
             newligne += ligne[i]  
         else:
             pass 
