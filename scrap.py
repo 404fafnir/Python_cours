@@ -46,7 +46,7 @@ def retrieve (lien):
     lienR = requests.get(lien)
     
     if lienR.ok: 
-           
+
         soupeOchoux = Soupe(lienR.text, 'html.parser')
 
         head = soupeOchoux.find('div', {"class": "head"})
@@ -110,7 +110,7 @@ except:
     print("erreur")
 
 finally:
-    print("Doc fermé")
+    
     print("DONE")
         
 
