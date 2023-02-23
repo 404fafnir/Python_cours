@@ -14,8 +14,6 @@ def liens ():
 
         response = requests.get(Url)
 
-                
-
         if response.ok:
 
             soupeOcailloux = Soupe(response.text, 'html.parser')
@@ -75,24 +73,21 @@ def retrieve (lien):
     return Clowns     
 
 
-LinkList = liens()
+listeLiens = liens()
 
 
-for i in range (len(LinkList)):
-    retrieve(LinkList[i])
+for i in range (len(listeLiens)):
+    retrieve(listeLiens[i])
     print("Retrieving for id : " + str(i))
 
-print(LinkList)
 
-#CSV
+#Partie CSV
 
 try:
 
     data = [['ID', 'Name', 'Localisation', 'Adress', 'Link'],['0', 'Alexandre Quilian-Delaistre, alias SwoupGang', 'à Coachella ou Tommorowland', 'ERROR_NONE', 'Pas besoin de liens, il est au dessus de ça']]
-    print("Fields Data List")
 
-    longeur = len(LinkList)
-    print("Assining Longeur")
+    longeur = len(listeLiens)
 
     for i in range (0, longeur):
         tmp = []
@@ -106,15 +101,14 @@ try:
    
     with open('Scrap_results.csv', 'w', newline='') as csvfile:
         my_writer = csv.writer(csvfile, delimiter='|')
-        print("Creating File")
+        
         my_writer.writerows(data)
-        print("Writing File")
+        
 
 except:
     print("erreur")
 
 finally:
-#   my_writer.close()
     print("Doc fermé")
     print("DONE")
         
