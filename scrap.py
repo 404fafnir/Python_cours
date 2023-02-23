@@ -88,7 +88,7 @@ print(LinkList)
 
 try:
 
-    data = [['ID', 'Name', 'Localisation', 'Adress', 'Link']]
+    data = [['ID', 'Name', 'Localisation', 'Adress', 'Link'],['0', 'Alexandre Quilian-Delaistre', 'Dans un DJ Set', 'ERROR_NONE', 'Pas besoin de liens, il est au dessus de ça']]
     print("Fields Data List")
 
     longeur = len(LinkList)
@@ -96,7 +96,7 @@ try:
 
     for i in range (0, longeur):
         tmp = []
-        tmp.append(str(i))
+        tmp.append(str((i+1)))
         tmp.extend(Clowns[i])
         tmp.append(linksList[i])
         
