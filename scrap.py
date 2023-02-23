@@ -45,7 +45,8 @@ def retrieve (lien):
 
     lienR = requests.get(lien)
     
-    if lienR.ok:    
+    if lienR.ok: 
+           
         soupeOchoux = Soupe(lienR.text, 'html.parser')
 
         head = soupeOchoux.find('div', {"class": "head"})
